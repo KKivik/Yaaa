@@ -7,6 +7,7 @@ from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog
 from PyQt6.QtGui import QIcon
 from Crypto import Decoder, No_Flash_Drive, No_Key_On_Flash
+from Hello_window import Dialog
 
 class Cryptographer_window(QWidget):
     def __init__(self, *args):
@@ -14,6 +15,10 @@ class Cryptographer_window(QWidget):
         uic.loadUi('consts/Main_window.ui', self)  # Загружаем дизайн
         self.setWindowTitle("Cryptography")
         self.setWindowIcon(QIcon('images/ico.png'))
+        self.dialog = Dialog()
+        self.letter = self.dialog.exec()
+        self.drive_letter = self.dialog.index
+
         self.select_folder.clicked.connect(self.selecting_folder)
         self.encode_button.clicked.connect(self.encoding_select)
         self.decode_button.clicked.connect(self.decoding_select)
@@ -30,7 +35,7 @@ class Cryptographer_window(QWidget):
             self.status.setStyleSheet("font: 15pt Comic Sans MS")
         else:
             try:
-                self.Encryptor = Decoder(self.fname, True)
+                self.Encryptor = Decoder(self.fname, True, self.drive_letter)
             except No_Flash_Drive:
                 self.status.setText('Вставьте флешку')
                 self.status.setStyleSheet("font: 15pt Comic Sans MS")
@@ -44,7 +49,7 @@ class Cryptographer_window(QWidget):
             self.status.setStyleSheet("font: 15pt Comic Sans MS")
         else:
             try:
-                self.Encryptor = Decoder(self.fname, False)
+                self.Encryptor = Decoder(self.fname, False, self.drive_letter)
             except No_Flash_Drive:
                 self.status.setText('Вставьте флешку')
                 self.status.setStyleSheet("font: 15pt Comic Sans MS")

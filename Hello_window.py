@@ -16,10 +16,12 @@ class Dialog(QDialog):
         self.comboBox.addItem('G')
         self.comboBox.addItem('D')
         self.comboBox.addItem('M')
+        self.comboBox.setCurrentIndex(-1)
+        self.comboBox.currentTextChanged.connect(self.activated)
+
+    def activated(self, index):
+        # print(index)
+        self.index = index
 
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = Dialog()
-    ex.show()
-    sys.exit(app.exec())
+

@@ -13,8 +13,8 @@ class No_Key_On_Flash(Exception):
 	pass
 
 class Decoder:
-	def __init__(self, path_to_decode, bool): # bool если True значит шифруем, если False, то расшифровываем
-		self.drive_letter = "G"  # имя буквы внешнего накопителя
+	def __init__(self, path_to_decode, bool, drive_letter): # bool если True значит шифруем, если False, то расшифровываем
+		self.drive_letter = str(drive_letter)  # имя буквы внешнего накопителя
 		if self.check_drive():
 			self.con = sqlite3.connect(self.drive_letter + ":/db.sqlite")
 			self.cur = self.con.cursor()
