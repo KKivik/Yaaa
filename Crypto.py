@@ -14,9 +14,9 @@ class No_Key_On_Flash(Exception):
 
 class Decoder:
 	def __init__(self, path_to_decode, bool): # bool если True значит шифруем, если False, то расшифровываем
-		self.drive_letter = "F"  # имя буквы внешнего накопителя
+		self.drive_letter = "G"  # имя буквы внешнего накопителя
 		if self.check_drive():
-			self.con = sqlite3.connect("F:/db.sqlite")
+			self.con = sqlite3.connect(self.drive_letter + ":/db.sqlite")
 			self.cur = self.con.cursor()
 			self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 			self.s.connect(("8.8.8.8", 80))  # любой внешний адрес
@@ -49,6 +49,7 @@ class Decoder:
 	def write_key(self):
 		key = Fernet.generate_key()
 		self.cur.execute("""INSERT INTO keys VALUES (?, ?);""", (self.ip, key))
+		self.con.commit()
 
 	def load_key(self):
 		# self.ip - ipшник
@@ -121,6 +122,5 @@ class Decoder:
 				self.decrypt(path, key)
 			else:
 				self.walk_to_decode(path)
-
 
 

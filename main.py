@@ -5,12 +5,15 @@ import sys
 
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog
+from PyQt6.QtGui import QIcon
 from Crypto import Decoder, No_Flash_Drive, No_Key_On_Flash
 
 class Cryptographer_window(QWidget):
     def __init__(self, *args):
         super().__init__()
         uic.loadUi('consts/Main_window.ui', self)  # Загружаем дизайн
+        self.setWindowTitle("Cryptography")
+        self.setWindowIcon(QIcon('images/ico.png'))
         self.select_folder.clicked.connect(self.selecting_folder)
         self.encode_button.clicked.connect(self.encoding_select)
         self.decode_button.clicked.connect(self.decoding_select)
@@ -62,4 +65,3 @@ if __name__ == '__main__':
     ex = Cryptographer_window()
     ex.show()
     sys.exit(app.exec())
-
