@@ -5,7 +5,6 @@ import sqlite3
 import os, ipaddress
 import socket
 
-
 class No_Flash_Drive(Exception):
 	pass
 
@@ -15,6 +14,7 @@ class No_Key_On_Flash(Exception):
 class Decoder:
 	def __init__(self, path_to_decode, bool, drive_letter): # bool если True значит шифруем, если False, то расшифровываем
 		self.drive_letter = str(drive_letter)  # имя буквы внешнего накопителя
+		self.setupUi(self)
 		if self.check_drive():
 			self.con = sqlite3.connect(self.drive_letter + ":/db.sqlite")
 			self.cur = self.con.cursor()
@@ -98,10 +98,12 @@ class Decoder:
 
 
 	def walk(self, temp_path): #Бегает по директории и шифрует файлs
+		self.list = []
 		names = os.listdir(temp_path)
 		#print(names)
 
 		for name in names:
+			self.list.append(name)
 			path = os.path.join(temp_path, name)
 			ext = os.path.splitext(path)
 
@@ -111,10 +113,12 @@ class Decoder:
 				self.walk(path)
 
 	def walk_to_decode(self, temp_path):
+		self.list = []
 		names = os.listdir(temp_path)
 		key = self.load_key()
 
 		for name in names:
+			self.list.append(name)
 			path = os.path.join(temp_path, name)
 			ext = os.path.splitext(path)
 
